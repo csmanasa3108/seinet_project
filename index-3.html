@@ -1,0 +1,143 @@
+<html>
+    <head>
+            <link rel="stylesheet" href="styles.css">
+        <title>
+            Image Upload
+        </title>
+    </head>
+    <body>
+	<!-- load the d3.js library -->	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+
+            <div class="container py-5">
+
+                    <!-- For demo purpose -->
+                    <header class="text-white text-center">
+                        <h1 class="display-4">SEINET IMAGE UPLOAD</h1>
+                        <p class="lead mb-0">Upload the image to classify</p>
+                        <img src="https://res.cloudinary.com/mhmd/image/upload/v1564991372/image_pxlho1.svg" alt="" width="150" class="mb-4">
+                    </header>
+                
+                
+                    <div class="row py-4">
+                        <div class="col-lg-6 mx-auto">
+                
+                            <!-- Upload image input-->
+                            <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+                                <input id="upload" type="file" onchange="readURL(this);" class="form-control border-0">
+                                <div class="input-group-append">
+                                    <label for="upload" class="btn btn-light m-0 rounded-pill px-4"> <i class="fa fa-cloud-upload mr-2 text-muted"></i><small class="text-uppercase font-weight-bold text-muted">Choose file</small></label>
+                                </div>
+                            </div>
+                
+                            <!-- Uploaded image area-->
+                            <p class="font-italic text-white text-center">The image uploaded will be rendered inside the box below.</p>
+                            <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
+                
+                        </div>
+                    </div>
+                </div>
+					
+
+			<div id="Species">
+        <label style="font-weight: bold; color:#003366; font-family: serif;font-size: 25px;"> Select A Species &nbsp;</label>
+        <select id="species" name="species" onchange="report(this.value)" style="width: 120px;height: 30px; background-color:#99ccff; border-style: solid; border-width:thin; border-color: black">
+            <option value="">Please Select</option> 
+            <option value="Anisacanthus thurberi">Anisacanthus thurberi</option>
+            <option value="Carlowrightia arizonica">Carlowrightia arizonica</option>
+            <option value="Justicia californica">Justicia californica</option>
+        </select>
+    </div>  
+	<h2 style="font-weight:bold;font-family: serif;font-size:30px;color:#000099;"></h2>
+
+
+				<script> 
+					var width = 449;
+					var height = 249;
+					var word = "Family Tree";
+					 
+					var holder = d3.select("body")
+						  .append("svg")
+						  .attr("width", width)    
+						  .attr("height", height); 
+						  		
+					
+					function report(species){						
+						 d3.select("h2").text("The Species is "+species)
+						.style("color","#000099"); 
+					
+					
+						// draw a rectangle
+						holder.append("a")
+							.attr("xlink:href", getlink(species))
+							.append("rect")  
+							.attr("x", 100)
+							.attr("y", 50)
+							.attr("height", 100)
+							.attr("width", 200)
+							.style("fill", "lightgrey")
+							.attr("rx", 10)
+							.attr("ry", 10);	
+
+						
+						// draw text on the screen
+						holder.append("text")
+							.attr("x", 200)
+							.attr("y", 100)
+							.style("fill", "black")
+							.style("font-size", "20px")
+							.attr("dy", ".35em")
+							.attr("text-anchor", "middle")
+							.style("pointer-events", "none")
+							.text(word);
+								
+					}
+					
+					function getlink(species)
+					{
+					var dict = 
+								[
+								  {
+									"Species": "Anisacanthus thurberi",
+									"parent":"Amaranthaceae",
+									"Links": "http://swbiodiversity.org/seinet/collections/map/googlemap.php?usethes=1&taxa=2972"
+								  },
+								  {
+									"Species": "Carlowrightia arizonica",
+									"parent":"Amaranthaceae",
+									"Links":"http://swbiodiversity.org/seinet/collections/map/googlemap.php?usethes=1&taxa=1215"
+								  },
+								  {
+									"Species": "Justicia californica",
+									"parent":"Amaranthaceae",
+									"Links":"http://swbiodiversity.org/seinet/collections/map/googlemap.php?usethes=1&taxa=2568"
+								  }];
+					var parentLink =
+						[
+							{
+								"Parent": "Amaranthaceae",
+								"Links": "species1.html"
+							}
+						];			  
+								  
+							for (var i = 0; i < dict.length; i++) {
+								if(dict[i].Species == species){
+									var parentVar = dict[i].parent;
+									for(var i = 0; i<parentLink.length;i++)
+									{
+										if(parentLink[i].Parent == parentVar)
+										{
+											return parentLink[i].Links;
+										}
+									}
+								}
+							}
+
+						
+					}
+        
+				</script>
+	
+    </body>    
+	
+</html>
